@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/dmitrychurkin/hotelier-golang/connections"
+	"github.com/dmitrychurkin/hotelier-golang/connection"
 	"github.com/dmitrychurkin/hotelier-golang/server"
 
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -11,11 +11,11 @@ import (
 )
 
 func main() {
-	connections := connections.Init()
-	defer connections.CACHE.Close()
-	defer connections.DB.Close()
+	conn := new(connection.Connect)
+	defer conn.Close()
+	conn.Init()
 
-	err := server.Create(connections).Run()
+	err := server.Create(conn).Run()
 	if err != nil {
 		log.Fatal(err)
 	}

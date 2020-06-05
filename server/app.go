@@ -1,17 +1,16 @@
 package server
 
 import (
-	"github.com/dmitrychurkin/hotelier-golang/connections"
+	"github.com/dmitrychurkin/hotelier-golang/connection"
 	"github.com/dmitrychurkin/hotelier-golang/middleware"
+	"github.com/dmitrychurkin/hotelier-golang/router"
 	"github.com/gin-gonic/gin"
 )
 
 // Create ...
-func Create(connect *connections.Connect) *gin.Engine {
+func Create(connect *connection.Connect) *gin.Engine {
 	engine := gin.Default()
 	engine.Use(middleware.Ctx(connect.DB))
-	// engine.GET("/", func(c *gin.Context) {
-	// 	c.JSON(200, gin.H{"message": "t"})
-	// })
+	router.Config(engine)
 	return engine
 }

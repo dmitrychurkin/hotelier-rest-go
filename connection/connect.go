@@ -1,4 +1,4 @@
-package connections
+package connection
 
 import (
 	"fmt"
@@ -16,7 +16,7 @@ type Connect struct {
 }
 
 // Init ...
-func Init() *Connect {
+func (c *Connect) Init() {
 	client := redis.NewClient(&redis.Options{
 		Addr:     util.GetEnv("REDIS_URL"),
 		Password: util.GetEnv("REDIS_PASSWORD"),
@@ -33,5 +33,12 @@ func Init() *Connect {
 		log.Fatal(err)
 	}
 
-	return &Connect{db, client}
+	c.DB = db
+	c.CACHE = client
+}
+
+// Close ...
+func (c *Connect) Close() {
+	c.CACHE.Close()
+	c.DB.Close()
 }

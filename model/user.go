@@ -1,4 +1,4 @@
-package models
+package model
 
 import (
 	"github.com/jinzhu/gorm"
@@ -8,5 +8,5 @@ import (
 type User struct {
 	gorm.Model
 	Name string
-	Age  int
+	Age  uint8
 }
