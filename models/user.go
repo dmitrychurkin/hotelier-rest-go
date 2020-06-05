@@ -1,8 +1,6 @@
 package models
 
 import (
-	"database/sql"
-
 	"github.com/jinzhu/gorm"
 )
 
@@ -10,5 +8,5 @@ import (
 type User struct {
 	gorm.Model
 	Name string
-	Age  sql.NullInt64
+	Age  int
 }

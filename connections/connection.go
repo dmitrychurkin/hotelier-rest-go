@@ -9,8 +9,14 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+// Connect ...
+type Connect struct {
+	DB    *gorm.DB
+	CACHE *redis.Client
+}
+
 // Init ...
-func Init() (*redis.Client, *gorm.DB) {
+func Init() *Connect {
 	client := redis.NewClient(&redis.Options{
 		Addr:     util.GetEnv("REDIS_URL"),
 		Password: util.GetEnv("REDIS_PASSWORD"),
@@ -27,5 +33,5 @@ func Init() (*redis.Client, *gorm.DB) {
 		log.Fatal(err)
 	}
 
-	return client, db
+	return &Connect{db, client}
 }

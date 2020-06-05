@@ -1,8 +1,9 @@
 package main
 
 import (
+	"log"
+
 	"github.com/dmitrychurkin/hotelier-golang/connections"
-	"github.com/dmitrychurkin/hotelier-golang/migrations"
 	"github.com/dmitrychurkin/hotelier-golang/server"
 
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -10,10 +11,12 @@ import (
 )
 
 func main() {
-	redis, db := connections.Init()
-	defer redis.Close()
-	defer db.Close()
+	connections := connections.Init()
+	defer connections.CACHE.Close()
+	defer connections.DB.Close()
 
-	migrations.RunMigrations(db)
-	server.Create().Run()
+	err := server.Create(connections).Run()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
